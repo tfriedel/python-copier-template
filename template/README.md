@@ -95,7 +95,8 @@ Open the project in VS Code and use the "Reopen in Container" command for a full
 
 ### Update Template
 
-This project was created from [python-copier-template](https://github.com/mjun0812/python-copier-template).
+This project was created from [tfriedel/python-copier-template](https://github.com/tfriedel/python-copier-template), a fork of [mjun0812/python-copier-template](https://github.com/mjun0812/python-copier-template) with TDD-Guard integration.
+
 You can apply updates from the template using:
 
 ```bash

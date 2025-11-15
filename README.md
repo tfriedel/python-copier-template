@@ -1,11 +1,13 @@
 # Python Copier Template
 
 [![Copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-black.json)](https://github.com/copier-org/copier)
-[![Test](https://github.com/mjun0812/python-copier-template/actions/workflows/test.yml/badge.svg)](https://github.com/mjun0812/python-copier-template/actions/workflows/test.yml)
+[![Test](https://github.com/tfriedel/python-copier-template/actions/workflows/test.yml/badge.svg)](https://github.com/tfriedel/python-copier-template/actions/workflows/test.yml)
 
-A simple modern Python project template powered by [Copier](https://copier.readthedocs.io/).
+A modern Python project template powered by [Copier](https://copier.readthedocs.io/) with TDD-Guard integration.
 
-[Article](https://mjunya.com/en/posts/2025-06-15-python-template/) [日本語記事](https://zenn.dev/mjun0812/articles/0ae2325d40ed20)
+> **Note**: This is a fork of [mjun0812/python-copier-template](https://github.com/mjun0812/python-copier-template) with enhanced TDD workflow support and additional tooling.
+>
+> Original template by Junya Morioka - [Article](https://mjunya.com/en/posts/2025-06-15-python-template/) | [日本語記事](https://zenn.dev/mjun0812/articles/0ae2325d40ed20)
 
 ## Features
 
@@ -30,7 +32,7 @@ A simple modern Python project template powered by [Copier](https://copier.readt
 ### Generate a New Project
 
 ```bash
-uvx copier copy gh:mjun0812/python-copier-template your-project-name
+uvx copier copy gh:tfriedel/python-copier-template your-project-name
 ```
 
 Follow the interactive prompts to configure your project:

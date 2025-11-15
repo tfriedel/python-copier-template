@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       target_repository:
-        description: "Target repository to update (default: mjun0812/python-project-template)"
+        description: "Target repository to update (default: tfriedel/python-project-template)"
         required: false
-        default: "mjun0812/python-project-template"
+        default: "tfriedel/python-project-template"
 
 jobs:
   update-child-template:
@@ -20,7 +20,7 @@ jobs:
       - name: Checkout child repository
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.event.inputs.target_repository || 'mjun0812/python-project-template' }}
+          repository: ${{ github.event.inputs.target_repository || 'tfriedel/python-project-template' }}
           token: ${{ secrets.CHILD_REPO_TOKEN }}
           path: child-repo
 
