@@ -1,4 +1,8 @@
 repos:
+  - repo: https://github.com/ikornaselur/sync-with-uv
+    rev: v0.1.8
+    hooks:
+      - id: sync-with-uv
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.
     rev: 0.8.22

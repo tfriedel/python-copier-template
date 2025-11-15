@@ -39,6 +39,24 @@ make ci          # Run full CI pipeline
 - Upgrading: `uv add --dev package --upgrade-package package`
 - FORBIDDEN: `uv pip install`, `@latest` syntax
 
+### Version Drift Prevention
+
+This template uses `sync-with-uv` to eliminate version drift between `uv.lock` and `.pre-commit-config.yaml`.
+
+**How it works:**
+- `uv.lock` is the single source of truth for all tool versions
+- The `sync-with-uv` pre-commit hook runs before all other hooks
+- It automatically updates tool versions in `.pre-commit-config.yaml` to match `uv.lock`
+- No manual synchronization needed when upgrading dependencies
+
+**Benefits:**
+- Consistent tool behavior between local development and CI
+- Eliminates unexpected pre-commit failures from version mismatches
+- Reduces manual maintenance of configuration files
+
+**Usage:**
+When you upgrade a tool with `uv add --dev tool --upgrade-package tool`, the next commit automatically syncs the version to `.pre-commit-config.yaml`.
+
 ### Code Quality Standards
 
 - Type hints required for all code
