@@ -10,10 +10,11 @@
 - 📦 **Devcontainer Support**: VS Code devcontainer for consistent development
 - ✨ **AI Editor Support**: [Cursor rules](https://docs.cursor.com/context/rules) and [CLAUDE.md](https://docs.anthropic.com/en/docs/claude-code/overview) included for AI-powered development
 - 🛡️ **TDD-Guard**: Automated TDD enforcement for Claude Code with real-time test-driven development validation
-- 📝 **Type Hints**: Full type annotation support with modern Python features
+- 📝 **Type Checking**: Zuban type checker with mypy-compatible mode
 - 🔍 **Code Quality**: Pre-configured Ruff for linting and formatting
 - 🧪 **Testing**: pytest setup with example tests
-- 🔧 **Pre-commit Hooks**: Automated code quality checks
+- 🔧 **Pre-commit Hooks**: Automated code quality checks with prek (10x faster than traditional pre-commit)
+- 🔄 **Version Sync**: sync-with-uv eliminates version drift between uv.lock and pre-commit config
 - 🏗️ **CI Ready**: GitHub Actions workflows included
 - 🔨 **Makefile**: Convenient commands for common development tasks
 
@@ -35,7 +36,7 @@ make setup
 uv sync
 
 # Install pre-commit hooks
-uv run pre-commit install
+uv run prek install
 ```
 
 ### Common Commands
@@ -119,10 +120,9 @@ uvx copier update -A
 
 ## Q&A
 
-### Why don't you use a type checker?
+### What type checker does this use?
 
-I'm waiting for stable release of [`ty`](https://github.com/astral-sh/ty).
-You can install and use your preferred type checker.
+This template includes [Zuban](https://github.com/lorencarvalho/zuban), a modern type checker with mypy-compatible mode. If you prefer a different type checker like mypy or pyright, you can easily swap it out.
 
 ## Support
 

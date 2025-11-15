@@ -39,6 +39,18 @@ make ci          # Run full CI pipeline
 - Upgrading: `uv add --dev package --upgrade-package package`
 - FORBIDDEN: `uv pip install`, `@latest` syntax
 
+### Pre-commit Hooks (prek)
+
+This template uses `prek`, a Rust-based drop-in replacement for pre-commit that runs **10x faster** while using half the disk space.
+
+**Why prek:**
+- Dramatically faster hook execution for faster commits
+- Reduced disk usage compared to Python-based pre-commit
+- Full compatibility with existing pre-commit hooks
+- Used by major projects like Apache Airflow and PDM
+
+**Configuration:** `.pre-commit-config.yaml` (same as traditional pre-commit)
+
 ### Version Drift Prevention
 
 This template uses `sync-with-uv` to eliminate version drift between `uv.lock` and `.pre-commit-config.yaml`.
@@ -144,11 +156,11 @@ Manual commands (if needed):
    - Format: `uv run --frozen ruff format .`
    - Check: `uv run --frozen ruff check .`
    - Fix: `uv run --frozen ruff check . --fix`
-2. Pre-commit
+2. Prek (pre-commit hooks)
    - Config: `.pre-commit-config.yaml`
-   - Install: `make install-hooks` (or `uv run pre-commit install`)
+   - Install: `make install-hooks` (or `uv run prek install`)
    - Runs: automatically on git commit
-   - Tools: Ruff (Python)
+   - Tools: sync-with-uv, uv-lock, Ruff, Zuban
 
 ## Development Workflow Best Practices
 

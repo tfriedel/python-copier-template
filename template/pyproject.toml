@@ -16,7 +16,7 @@ packages = ["src/{{package_name}}"]
 
 [dependency-groups]
 dev = [
-  "pre-commit>=4.2.0",
+  "prek>=0.2.14",
   "pytest>=8.4.0",
   "ruff>=0.11.12",
   "sync-with-uv>=0.1.8",

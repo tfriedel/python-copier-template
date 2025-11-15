@@ -58,5 +58,5 @@
 		"source=${localEnv:HOME}/.codex/config.toml,target=/home/vscode/.codex/config.toml,type=bind"
 	],
 	"postCreateCommand": "npm install -g @openai/codex@latest && uv sync",
-	"postStartCommand": "uv run pre-commit install"
+	"postStartCommand": "uv run prek install"
 }

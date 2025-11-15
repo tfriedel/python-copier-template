@@ -25,7 +25,7 @@ install-dev: ## Install development dependencies
 
 install-hooks: ## Install pre-commit hooks
 	@echo "🪝 Installing pre-commit hooks..."
-	uv run pre-commit install
+	uv run prek install
 	@echo "✅ Pre-commit hooks installed"
 
 ## Code Quality
@@ -97,7 +97,7 @@ ci: ## Run full CI pipeline (format, lint, typecheck, test)
 
 pre-commit: ## Run pre-commit hooks on all files
 	@echo "🪝 Running pre-commit hooks..."
-	uv run pre-commit run --all-files
+	uv run prek run --all-files
 
 ## Development Utilities
 
