@@ -43,6 +43,10 @@ lint-fix: ## Lint code and auto-fix issues
 	@echo "🔧 Linting code with auto-fix..."
 	uv run --frozen ruff check . --fix
 
+typecheck: ## Run type checking with Zuban
+	@echo "🔍 Running type checker..."
+	uv run --frozen zmypy
+
 ## Testing
 
 test: ## Run tests
@@ -76,16 +80,18 @@ clean: ## Clean up temporary files and caches
 
 ## CI/Development Workflow
 
-check: ## Run all code quality checks (lint + test)
+check: ## Run all code quality checks (lint + typecheck + test)
 	@echo "🔍 Running all checks..."
 	@$(MAKE) lint
+	@$(MAKE) typecheck
 	@$(MAKE) test
 	@echo "✅ All checks passed"
 
-ci: ## Run full CI pipeline (format, lint, test)
+ci: ## Run full CI pipeline (format, lint, typecheck, test)
 	@echo "🤖 Running CI pipeline..."
 	@$(MAKE) format
 	@$(MAKE) lint
+	@$(MAKE) typecheck
 	@$(MAKE) test
 	@echo "✅ CI pipeline complete"
 

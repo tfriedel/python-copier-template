@@ -17,7 +17,7 @@ A modern Python project template powered by [Copier](https://copier.readthedocs.
 - 📦 **Devcontainer Support**: VS Code devcontainer for consistent development
 - ✨ **AI Editor Support**: [AGENTS.md](https://agents.md) and
   [CLAUDE.md](https://docs.anthropic.com/en/docs/claude-code/overview) included for AI-powered development
-- 📝 **Type Hints**: Full type annotation support with modern Python features
+- 📝 **Type Checking**: Zuban type checker in mypy-compatible mode
 - 🔍 **Code Quality**: Pre-configured Ruff for linting and formatting
 - 🧪 **Testing**: pytest setup with example tests
 - 🔧 **Pre-commit Hooks**: Automated code quality checks
@@ -60,10 +60,11 @@ uv run pre-commit install
 # Run tests
 uv run pytest
 
-# Run formatting and linting (automatically runs on commit)
+# Run formatting, linting, and type checking (automatically runs on commit)
 uv run ruff format .
 uv run ruff check .
-# Auto Fix
+uv run zmypy
+# Auto Fix linting issues
 uv run ruff check . --fix
 ```
 
@@ -116,10 +117,9 @@ your-project/
 
 ## Q&A
 
-### Why don't you use a type checker?
+### Why Zuban instead of mypy or pyright?
 
-I'm waiting for stable release of [`ty`](https://github.com/astral-sh/ty).
-You can install and use your preferred type checker.
+[Zuban](https://github.com/zubanls/zuban) is a high-performance type checker written in Rust that's 20-200× faster than mypy while maintaining compatibility. The template uses it in mypy-compatible mode for familiar behavior and error messages.
 
 ## Support
 

@@ -20,6 +20,7 @@ dev = [
   "pytest>=8.4.0",
   "ruff>=0.11.12",
   "tdd-guard-pytest>=0.1.2",
+  "zuban>=0.4.0",
 ]
 
 [tool.ruff]
@@ -80,3 +81,11 @@ unfixable = [
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
+[tool.mypy]
+# Zuban mypy-compatible mode configuration
+python_version = "{{python_version}}"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+exclude = [".git", ".ruff_cache", ".venv", ".vscode"]
