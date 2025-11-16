@@ -1,16 +1,16 @@
 repos:
-  - repo: https://github.com/ikornaselur/sync-with-uv
-    rev: v0.1.8
+  - repo: https://github.com/tsvikas/sync-with-uv
+    rev: v0.4.0
     hooks:
       - id: sync-with-uv
   - repo: https://github.com/astral-sh/uv-pre-commit
     # uv version.
-    rev: 0.8.22
+    rev: 0.9.9
     hooks:
       - id: uv-lock
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
-    rev: v0.13.2
+    rev: v0.14.5
     hooks:
       # Run the linter.
       - id: ruff-check

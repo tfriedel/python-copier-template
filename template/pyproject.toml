@@ -17,11 +17,11 @@ packages = ["src/{{package_name}}"]
 [dependency-groups]
 dev = [
   "prek>=0.2.14",
-  "pytest>=8.4.0",
-  "ruff>=0.11.12",
-  "sync-with-uv>=0.1.8",
+  "pytest>=9.0.1",
+  "ruff>=0.14.5",
+  "sync-with-uv>=0.4.0",
   "tdd-guard-pytest>=0.1.2",
-  "zuban>=0.4.0",
+  "zuban>=0.2.2",
 ]
 
 [tool.ruff]
