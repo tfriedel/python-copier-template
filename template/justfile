@@ -15,9 +15,20 @@ help:
 # Initialize a newly checked out repository
 setup:
     @echo "🚀 Setting up development environment..."
+    @just init-git
     @just install-dev
     @just install-hooks
     @echo "✅ Setup complete! You're ready to develop."
+
+# Initialize git repository if needed
+init-git:
+    @if [ ! -d .git ]; then \
+        echo "📁 Initializing Git repository..."; \
+        git init; \
+        echo "✅ Git repository initialized"; \
+    else \
+        echo "✅ Git repository already initialized"; \
+    fi
 
 # Install development dependencies
 install-dev:
