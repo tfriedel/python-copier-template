@@ -16,20 +16,21 @@
 - 🔧 **Pre-commit Hooks**: Automated code quality checks with prek (10x faster than traditional pre-commit)
 - 🔄 **Version Sync**: sync-with-uv eliminates version drift between uv.lock and pre-commit config
 - 🏗️ **CI Ready**: GitHub Actions workflows included
-- 🔨 **Makefile**: Convenient commands for common development tasks
+- ⚡ **justfile**: Modern command runner for common development tasks
 
 ## Quick Start
 
 ### Pre-Requirements
 
 - [uv](https://docs.astral.sh/uv/): Fast Python package installer
+- [just](https://just.systems/): Command runner (optional but recommended)
 - [TDD-Guard](https://github.com/nizos/tdd-guard) (optional, for TDD enforcement with Claude Code): `npm install -g tdd-guard`
 
 ### Development Setup
 
 ```bash
 # Quick setup (installs dependencies and pre-commit hooks)
-make setup
+just setup
 
 # Or manually:
 # Install dependencies
@@ -43,24 +44,24 @@ uv run prek install
 
 ```bash
 # View all available commands
-make help
+just --list
 
 # Testing
-make test              # Run tests
-make test-verbose      # Run tests with verbose output
-make test-coverage     # Run tests with coverage report
+just test              # Run tests
+just test-verbose      # Run tests with verbose output
+just test-coverage     # Run tests with coverage report
 
 # Code quality
-make format            # Format code with ruff
-make lint              # Check code quality
-make lint-fix          # Auto-fix linting issues
+just format            # Format code with ruff
+just lint              # Check code quality
+just lint-fix          # Auto-fix linting issues
 
 # Development workflow
-make ci                # Run full CI pipeline (format, lint, test)
-make clean             # Clean up temporary files and caches
+just ci                # Run full CI pipeline (format, lint, test)
+just clean             # Clean up temporary files and caches
 ```
 
-### Manual Commands (without Makefile)
+### Manual Commands (without justfile)
 
 ```bash
 # Run tests
@@ -128,4 +129,5 @@ This template includes [Zuban](https://github.com/lorencarvalho/zuban), a modern
 
 - 📖 [Copier Documentation](https://copier.readthedocs.io/)
 - 🐍 [uv Documentation](https://docs.astral.sh/uv/)
+- ⚡ [just Documentation](https://just.systems/)
 - 🔍 [Ruff Documentation](https://docs.astral.sh/ruff/)

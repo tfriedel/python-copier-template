@@ -5,20 +5,20 @@ Follow these guidelines precisely with a focus on maintainability and clear sepa
 
 ## Quick Start
 
-For new repository setup, use the Makefile:
+For new repository setup, use justfile:
 
 ```bash
-make setup  # Installs dependencies and pre-commit hooks
+just setup  # Installs dependencies and pre-commit hooks
 ```
 
 Common development commands:
 
 ```bash
-make help        # Show all available commands
-make format      # Format code
-make lint        # Check code quality
-make test        # Run tests
-make ci          # Run full CI pipeline
+just --list      # Show all available commands
+just format      # Format code
+just lint        # Check code quality
+just test        # Run tests
+just ci          # Run full CI pipeline
 ```
 
 ## Core Development Principles
@@ -141,13 +141,13 @@ After each green test, look for:
 
 ## Code Formatting and Linting
 
-Use the Makefile for all formatting and linting:
+Use justfile for all formatting and linting:
 
 ```bash
-make format      # Format code with ruff
-make lint        # Check code quality
-make lint-fix    # Auto-fix linting issues
-make pre-commit  # Run pre-commit hooks manually
+just format      # Format code with ruff
+just lint        # Check code quality
+just lint-fix    # Auto-fix linting issues
+just pre-commit  # Run pre-commit hooks manually
 ```
 
 Manual commands (if needed):
@@ -158,7 +158,7 @@ Manual commands (if needed):
    - Fix: `uv run --frozen ruff check . --fix`
 2. Prek (pre-commit hooks)
    - Config: `.pre-commit-config.yaml`
-   - Install: `make install-hooks` (or `uv run prek install`)
+   - Install: `just install-hooks` (or `uv run prek install`)
    - Runs: automatically on git commit
    - Tools: sync-with-uv, uv-lock, Ruff, Zuban
 
@@ -171,12 +171,12 @@ Manual commands (if needed):
 3. Write minimal code to make test pass (GREEN)
 4. Run test to confirm it passes
 5. Refactor if needed while keeping tests green (REFACTOR)
-6. Run `make lint` to catch issues like unused imports
+6. Run `just lint` to catch issues like unused imports
 7. Repeat with next single test
 
 **Code Quality Workflow:**
 
-- Run `make lint` frequently during development (not just at the end)
+- Run `just lint` frequently during development (not just at the end)
 - Use code-reviewer agent proactively after implementing significant features
 - Consider error scenarios during initial design, not as afterthoughts
 - Test both happy paths and error paths for every feature

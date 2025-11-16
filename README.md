@@ -13,6 +13,7 @@ A modern Python project template powered by [Copier](https://copier.readthedocs.
 
 - 🚀 **Modern Python**: Support for Python 3.10-3.13
 - 📦 **uv Package Manager**: Fast and reliable package management with [uv](https://github.com/astral-sh/uv)
+- ⚡ **just Command Runner**: Clean, modern task runner with intuitive syntax
 - 🐳 **Docker Support**: Complete Docker development environment
 - 📦 **Devcontainer Support**: VS Code devcontainer for consistent development
 - ✨ **AI Editor Support**: [AGENTS.md](https://agents.md) and
@@ -20,7 +21,7 @@ A modern Python project template powered by [Copier](https://copier.readthedocs.
 - 📝 **Type Checking**: Zuban type checker in mypy-compatible mode
 - 🔍 **Code Quality**: Pre-configured Ruff for linting and formatting
 - 🧪 **Testing**: pytest setup with example tests
-- 🔧 **Pre-commit Hooks**: Automated code quality checks
+- 🔧 **Pre-commit Hooks**: Automated code quality checks with prek (10x faster than traditional pre-commit)
 - 🏗️ **CI Ready**: GitHub Actions workflows included
 
 ## Quick Start
@@ -28,6 +29,7 @@ A modern Python project template powered by [Copier](https://copier.readthedocs.
 ### Pre-Requirements
 
 - [uv](https://docs.astral.sh/uv/): Fast Python package installer
+- [just](https://just.systems/): Command runner (optional but recommended)
 
 ### Generate a New Project
 
@@ -51,21 +53,26 @@ After generating your project:
 ```bash
 cd your-project-name
 
-# Install dependencies
-uv sync
+# Quick setup (installs dependencies and pre-commit hooks)
+just setup
 
-# Install pre-commit hooks
-uv run pre-commit install
+# Or manually:
+uv sync                    # Install dependencies
+uv run prek install        # Install pre-commit hooks
 
 # Run tests
-uv run pytest
+just test                  # or: uv run pytest
 
-# Run formatting, linting, and type checking (automatically runs on commit)
-uv run ruff format .
-uv run ruff check .
-uv run zmypy
-# Auto Fix linting issues
-uv run ruff check . --fix
+# Run formatting, linting, and type checking
+just format                # or: uv run ruff format .
+just lint                  # or: uv run ruff check .
+just typecheck             # or: uv run zmypy
+
+# Auto-fix linting issues
+just lint-fix              # or: uv run ruff check . --fix
+
+# See all available commands
+just --list
 ```
 
 ### Docker Development Setup
@@ -117,6 +124,14 @@ your-project/
 
 ## Q&A
 
+### Why just instead of make?
+
+[just](https://just.systems/) is a modern command runner designed specifically for developer tasks, not build systems. It offers:
+- Cleaner, more intuitive syntax without Make's quirks (no tab sensitivity, better error messages)
+- Written in Rust, aligning with the modern toolchain (prek, ruff, zuban, uv)
+- Better cross-platform compatibility
+- Developer-friendly features like recipe parameters and clear command listing
+
 ### Why Zuban instead of mypy or pyright?
 
 [Zuban](https://github.com/zubanls/zuban) is a high-performance type checker written in Rust that's 20-200× faster than mypy while maintaining compatibility. The template uses it in mypy-compatible mode for familiar behavior and error messages.
@@ -125,4 +140,5 @@ your-project/
 
 - 📖 [Copier Documentation](https://copier.readthedocs.io/)
 - 🐍 [uv Documentation](https://docs.astral.sh/uv/)
+- ⚡ [just Documentation](https://just.systems/)
 - 🔍 [Ruff Documentation](https://docs.astral.sh/ruff/)
