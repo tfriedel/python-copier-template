@@ -16,6 +16,7 @@ help:
 setup:
     @echo "🚀 Setting up development environment..."
     @just init-git
+    @just install-tdd-guard
     @just install-dev
     @just install-hooks
     @echo "✅ Setup complete! You're ready to develop."
@@ -28,6 +29,17 @@ init-git:
         echo "✅ Git repository initialized"; \
     else \
         echo "✅ Git repository already initialized"; \
+    fi
+
+# Install TDD-Guard for test-driven development enforcement
+install-tdd-guard:
+    @echo "🛡️ Installing/updating TDD-Guard..."
+    @if command -v npm >/dev/null 2>&1; then \
+        npm install -g tdd-guard@latest; \
+        echo "✅ TDD-Guard installed/updated"; \
+    else \
+        echo "⚠️  npm not found - skipping TDD-Guard installation"; \
+        echo "   Install Node.js to enable TDD-Guard: https://nodejs.org/"; \
     fi
 
 # Install development dependencies

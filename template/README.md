@@ -27,17 +27,23 @@
 
 - [uv](https://docs.astral.sh/uv/): Fast Python package installer
 - [just](https://just.systems/): Command runner (optional but recommended)
-- [TDD-Guard](https://github.com/nizos/tdd-guard) (optional, for TDD enforcement with Claude Code): `npm install -g tdd-guard`
+- [Node.js](https://nodejs.org/) (optional, for TDD-Guard): Required for TDD enforcement with Claude Code
 
 ### Development Setup
 
 ```bash
-# Quick setup (installs dependencies and pre-commit hooks)
+# Quick setup (initializes git, installs TDD-Guard, dependencies, and pre-commit hooks)
 just setup
 
 # Or manually:
+# Initialize git repository (required for dynamic versioning)
+git init
+
+# Install TDD-Guard (optional, requires Node.js/npm)
+npm install -g tdd-guard@latest
+
 # Install dependencies
-uv sync
+uv sync --dev
 
 # Install pre-commit hooks
 uv run prek install
