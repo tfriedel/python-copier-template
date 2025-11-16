@@ -12,9 +12,12 @@
 - 🛡️ **TDD-Guard**: Automated TDD enforcement for Claude Code with real-time test-driven development validation
 - 📝 **Type Checking**: Zuban type checker with mypy-compatible mode
 - 🔍 **Code Quality**: Pre-configured Ruff for linting and formatting
-- 🧪 **Testing**: pytest setup with example tests
+- 🧪 **Testing**: pytest setup with coverage reporting and enhanced output (pytest-cov, pytest-sugar)
+- 📊 **Modern Logging**: Loguru for intuitive, zero-config logging
 - 🔧 **Pre-commit Hooks**: Automated code quality checks with prek (10x faster than traditional pre-commit)
 - 🔄 **Version Sync**: sync-with-uv eliminates version drift between uv.lock and pre-commit config
+- 🏷️ **Dynamic Versioning**: Automatic versioning from git tags (no manual version bumping!)
+- 📝 **Changelog Generation**: Automated CHANGELOG.md from conventional commits
 - 🏗️ **CI Ready**: GitHub Actions workflows included
 - ⚡ **justfile**: Modern command runner for common development tasks
 
@@ -58,6 +61,7 @@ just lint-fix          # Auto-fix linting issues
 
 # Development workflow
 just ci                # Run full CI pipeline (format, lint, test)
+just changelog         # Generate/update CHANGELOG.md
 just clean             # Clean up temporary files and caches
 ```
 
@@ -124,6 +128,64 @@ uvx copier update -A
 ### What type checker does this use?
 
 This template includes [Zuban](https://github.com/lorencarvalho/zuban), a modern type checker with mypy-compatible mode. If you prefer a different type checker like mypy or pyright, you can easily swap it out.
+
+### How does versioning work?
+
+This template uses **dynamic versioning** from git tags - no manual version bumping required!
+
+- Version is automatically derived from git tags using `uv-dynamic-versioning`
+- Create a git tag (e.g., `v1.0.0`) to set your version
+- The version in your built package will match the tag
+- No need to manually update `pyproject.toml` for version changes
+
+**Example workflow:**
+```bash
+# Make your changes and commit them
+git commit -m "feat: add new feature"
+
+# Create a version tag
+git tag v1.0.0
+
+# Build your package (version will be 1.0.0)
+uv build
+```
+
+### How do I generate a changelog?
+
+The template includes automated changelog generation from git commits using conventional commits:
+
+```bash
+# Generate/update CHANGELOG.md
+just changelog
+```
+
+**Conventional commit format:**
+```
+type(scope): description
+
+Examples:
+- feat: add user authentication
+- fix: resolve login bug
+- docs: update installation guide
+- chore: update dependencies
+```
+
+Supported types: `feat`, `fix`, `docs`, `perf`, `refactor`, `style`, `test`, `chore`
+
+### What logging library should I use?
+
+The template includes [Loguru](https://github.com/Delgan/loguru) for modern, zero-config logging:
+
+```python
+from loguru import logger
+
+logger.info("Application started")
+logger.debug("Debug info: {}", some_var)
+logger.error("Something went wrong!")
+
+# Easy file logging with rotation
+logger.add("logs/app_{time}.log", rotation="500 MB", retention="10 days")
+```
 
 ## Support
 

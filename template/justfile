@@ -115,6 +115,12 @@ pre-commit:
 
 ## Development Utilities
 
+# Generate/update CHANGELOG.md from git history
+changelog:
+    @echo "📝 Generating changelog..."
+    uv run git-cliff -o CHANGELOG.md
+    @echo "✅ CHANGELOG.md updated"
+
 # Update all dependencies to latest versions
 update-deps:
     @echo "📦 Updating dependencies..."

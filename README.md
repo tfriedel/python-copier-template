@@ -20,8 +20,11 @@ A modern Python project template powered by [Copier](https://copier.readthedocs.
   [CLAUDE.md](https://docs.anthropic.com/en/docs/claude-code/overview) included for AI-powered development
 - 📝 **Type Checking**: Zuban type checker in mypy-compatible mode
 - 🔍 **Code Quality**: Pre-configured Ruff for linting and formatting
-- 🧪 **Testing**: pytest setup with example tests
+- 🧪 **Testing**: pytest setup with coverage reporting and enhanced output (pytest-cov, pytest-sugar)
+- 📊 **Modern Logging**: Loguru for intuitive, zero-config logging
 - 🔧 **Pre-commit Hooks**: Automated code quality checks with prek (10x faster than traditional pre-commit)
+- 🏷️ **Dynamic Versioning**: Automatic versioning from git tags (no manual version bumping!)
+- 📝 **Changelog Generation**: Automated CHANGELOG.md from conventional commits
 - 🏗️ **CI Ready**: GitHub Actions workflows included
 
 ## Quick Start
