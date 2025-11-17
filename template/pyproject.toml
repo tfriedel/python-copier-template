@@ -27,6 +27,7 @@ bump = true
 [dependency-groups]
 dev = [
   "coverage[toml]>=7.6.0",
+  "deptry>=0.23.0",
   "git-cliff>=2.8.0",
   "prek>=0.2.14",
   "pytest>=9.0.1",
@@ -118,3 +119,5 @@ exclude_lines = [
   "if __name__ == .__main__.:",
   "if TYPE_CHECKING:",
 ]
+
+[tool.deptry]

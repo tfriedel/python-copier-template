@@ -76,6 +76,11 @@ typecheck:
     @echo "🔍 Running type checker..."
     uv run --frozen zmypy
 
+# Check for dependency issues with deptry
+deptry:
+    @echo "🔍 Checking for dependency issues..."
+    uv run --frozen deptry src
+
 ## Testing
 
 # Run tests
@@ -119,6 +124,7 @@ check:
     @echo "🔍 Running all checks..."
     @just lint
     @just typecheck
+    @just deptry
     @just test
     @echo "✅ All checks passed"
 
@@ -128,6 +134,7 @@ ci:
     @just format
     @just lint
     @just typecheck
+    @just deptry
     @just test
     @echo "✅ CI pipeline complete"
 
