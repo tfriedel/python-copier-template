@@ -2,6 +2,9 @@
 # Usage: just <recipe>
 # Use 'just --list' to see all available recipes
 
+# Load environment variables from .env file
+set dotenv-load := true
+
 # Default recipe - show help
 default: help
 
@@ -50,7 +53,15 @@ install-dev:
 # Install pre-commit hooks
 install-hooks:
     @echo "🪝 Installing pre-commit hooks..."
-    uv run prek install
+    @# Skip in worktrees - hooks are shared from main repo
+    @if [ -d .git ]; then \
+        uv run prek install && \
+        if [ -f .git/hooks/pre-commit ]; then \
+            sed -i 's|exec "\$$PREK"|exec uv run prek|' .git/hooks/pre-commit; \
+        fi; \
+    else \
+        echo "  Skipping in worktree (hooks shared from main repo)"; \
+    fi
     @echo "✅ Pre-commit hooks installed"
 
 ## Code Quality
@@ -71,22 +82,38 @@ lint-fix:
     @echo "🔧 Linting code with auto-fix..."
     uv run --frozen ruff check . --fix
 
-# Run type checking with Zuban
+# Run type checking with ty
 typecheck:
     @echo "🔍 Running type checker..."
-    uv run --frozen zmypy
+    uv run --frozen ty check
 
 # Check for dependency issues with deptry
 deptry:
     @echo "🔍 Checking for dependency issues..."
     uv run --frozen deptry src
 
+# Check cognitive complexity (all functions must be ≤ 15)
+complexity:
+    @echo "🔍 Checking cognitive complexity..."
+    uv run --frozen complexipy src --max-complexity-allowed 15
+
 ## Testing
 
-# Run tests
+# Run tests affected by recent changes (default, uses testmon)
 test:
-    @echo "🧪 Running tests..."
+    @echo "🧪 Running tests affected by changes..."
+    uv run --frozen pytest --testmon
+
+# Run all tests (ignores testmon)
+test-full:
+    @echo "🧪 Running all tests..."
     uv run --frozen pytest
+
+# Rebuild testmon database (run all tests to rebuild dependency map)
+test-reset:
+    @echo "🧪 Rebuilding testmon dependency database..."
+    uv run --frozen pytest --testmon
+    @echo "✅ Testmon database rebuilt"
 
 # Run tests with verbose output
 test-verbose:
@@ -119,23 +146,25 @@ clean:
 
 ## CI/Development Workflow
 
-# Run all code quality checks (lint + typecheck + test)
+# Run all code quality checks (lint + typecheck + test-full)
 check:
     @echo "🔍 Running all checks..."
     @just lint
     @just typecheck
     @just deptry
-    @just test
+    @just complexity
+    @just test-full
     @echo "✅ All checks passed"
 
-# Run full CI pipeline (format, lint, typecheck, test)
+# Run full CI pipeline (format, lint, typecheck, test-full)
 ci:
     @echo "🤖 Running CI pipeline..."
     @just format
     @just lint
     @just typecheck
     @just deptry
-    @just test
+    @just complexity
+    @just test-full
     @echo "✅ CI pipeline complete"
 
 # Run pre-commit hooks on all files
@@ -145,11 +174,122 @@ pre-commit:
 
 ## Development Utilities
 
-# Generate/update CHANGELOG.md from git history
+# Generate/update CHANGELOG.md from git history (for preview/manual edits)
 changelog:
     @echo "📝 Generating changelog..."
     uv run git-cliff -o CHANGELOG.md
     @echo "✅ CHANGELOG.md updated"
+
+# Create a new release (updates changelog, commits, and tags)
+# Usage: just release v0.5.0 [--yes]
+release VERSION *FLAGS:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    # Parse flags
+    SKIP_CONFIRM=false
+    for flag in {{FLAGS}}; do
+        if [[ "$flag" == "--yes" || "$flag" == "-y" ]]; then
+            SKIP_CONFIRM=true
+        fi
+    done
+
+    # Validate version format
+    if ! [[ "{{VERSION}}" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        echo "❌ Invalid version format. Use: vX.Y.Z or X.Y.Z"
+        exit 1
+    fi
+
+    # Ensure version starts with 'v'
+    VERSION="{{VERSION}}"
+    [[ "$VERSION" =~ ^v ]] || VERSION="v$VERSION"
+
+    # Check for uncommitted changes
+    if [[ -n $(git status --porcelain) ]]; then
+        echo "❌ Working directory has uncommitted changes. Commit or stash them first."
+        exit 1
+    fi
+
+    # Check if tag already exists
+    if git rev-parse "$VERSION" >/dev/null 2>&1; then
+        echo "❌ Tag $VERSION already exists"
+        exit 1
+    fi
+
+    echo "📝 Creating release $VERSION..."
+
+    # Generate changelog for this version
+    echo "  → Generating CHANGELOG.md with version $VERSION..."
+    uv run git-cliff --tag "$VERSION" -o CHANGELOG.md
+
+    # Show the changes
+    echo ""
+    echo "📋 Changelog changes:"
+    git diff CHANGELOG.md | head -50
+    echo ""
+
+    # Confirm (unless --yes flag)
+    if [[ "$SKIP_CONFIRM" != "true" ]]; then
+        read -p "Continue with release $VERSION? [y/N] " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            git checkout CHANGELOG.md
+            echo "❌ Release cancelled"
+            exit 1
+        fi
+    else
+        echo "⚡ Skipping confirmation (--yes flag)"
+    fi
+
+    # Commit and tag
+    echo "  → Committing changelog..."
+    git add CHANGELOG.md
+    git commit -m "docs: update changelog for $VERSION"
+
+    echo "  → Creating tag $VERSION..."
+    git tag -a "$VERSION" -m "Release $VERSION"
+
+    echo ""
+    echo "✅ Release $VERSION created successfully!"
+    echo ""
+    echo "📤 Next steps:"
+    echo "   git push origin $(git branch --show-current)"
+    echo "   git push origin $VERSION"
+
+# Auto-bump version and create release (determines version from conventional commits)
+# Usage: just release-auto [--yes]
+# Version bumping rules:
+#   - feat: commits → MINOR bump (v0.4.0 → v0.5.0)
+#   - fix: commits → PATCH bump (v0.4.0 → v0.4.1)
+#   - BREAKING CHANGE or feat!/fix! → MAJOR bump (v0.4.0 → v1.0.0)
+release-auto *FLAGS:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    # Check for uncommitted changes
+    if [[ -n $(git status --porcelain) ]]; then
+        echo "❌ Working directory has uncommitted changes. Commit or stash them first."
+        exit 1
+    fi
+
+    echo "🔍 Calculating next version from conventional commits..."
+    echo "  Rules: feat:→MINOR, fix:→PATCH, BREAKING CHANGE→MAJOR"
+    echo ""
+
+    # Get the bumped version (git-cliff returns with 'v' prefix already)
+    VERSION=$(uv run git-cliff --bumped-version 2>/dev/null || echo "")
+
+    if [[ -z "$VERSION" ]]; then
+        echo "❌ Could not determine next version. Make sure you have:"
+        echo "   - At least one previous tag (vX.Y.Z format)"
+        echo "   - Unreleased conventional commits (feat:, fix:, etc.)"
+        exit 1
+    fi
+    echo "📦 Next version: $VERSION"
+    echo ""
+
+    # Pass flags through to release command
+    just release "$VERSION" {{FLAGS}}
 
 # Update all dependencies to latest versions
 update-deps:

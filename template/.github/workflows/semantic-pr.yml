@@ -1,0 +1,46 @@
+{% raw %}name: Semantic PR
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+
+permissions:
+  pull-requests: read
+
+jobs:
+  validate-pr-title:
+    name: Validate PR title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Match types to cliff.toml commit_parsers
+          types: |
+            feat
+            fix
+            docs
+            perf
+            refactor
+            style
+            test
+            chore
+            ci
+            build
+            revert
+          requireScope: false
+          validateSingleCommit: false
+          ignoreLabels: |
+            wip
+            work in progress
+          subjectPattern: ^(?![A-Z]).+$
+          subjectPatternError: |
+            The subject "{subject}" found in the pull request title "{title}"
+            should start with a lowercase letter.
+
+            Example: "feat: add new feature" instead of "feat: Add new feature"
+{% endraw %}

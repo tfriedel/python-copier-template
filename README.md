@@ -18,7 +18,7 @@ A modern Python project template powered by [Copier](https://copier.readthedocs.
 - 📦 **Devcontainer Support**: VS Code devcontainer for consistent development
 - ✨ **AI Editor Support**: [AGENTS.md](https://agents.md) and
   [CLAUDE.md](https://docs.anthropic.com/en/docs/claude-code/overview) included for AI-powered development
-- 📝 **Type Checking**: Zuban type checker in mypy-compatible mode
+- 📝 **Type Checking**: [ty](https://github.com/astral-sh/ty), Astral's fast Rust-based type checker
 - 🔍 **Code Quality**: Pre-configured Ruff for linting and formatting
 - 🧪 **Testing**: pytest setup with coverage reporting and enhanced output (pytest-cov, pytest-sugar)
 - 📊 **Modern Logging**: Loguru for intuitive, zero-config logging
@@ -69,7 +69,7 @@ just test                  # or: uv run pytest
 # Run formatting, linting, and type checking
 just format                # or: uv run ruff format .
 just lint                  # or: uv run ruff check .
-just typecheck             # or: uv run zmypy
+just typecheck             # or: uv run ty check
 
 # Auto-fix linting issues
 just lint-fix              # or: uv run ruff check . --fix
@@ -131,13 +131,13 @@ your-project/
 
 [just](https://just.systems/) is a modern command runner designed specifically for developer tasks, not build systems. It offers:
 - Cleaner, more intuitive syntax without Make's quirks (no tab sensitivity, better error messages)
-- Written in Rust, aligning with the modern toolchain (prek, ruff, zuban, uv)
+- Written in Rust, aligning with the modern toolchain (prek, ruff, ty, uv)
 - Better cross-platform compatibility
 - Developer-friendly features like recipe parameters and clear command listing
 
-### Why Zuban instead of mypy or pyright?
+### Why ty instead of mypy or pyright?
 
-[Zuban](https://github.com/zubanls/zuban) is a high-performance type checker written in Rust that's 20-200× faster than mypy while maintaining compatibility. The template uses it in mypy-compatible mode for familiar behavior and error messages.
+[ty](https://github.com/astral-sh/ty) is a Rust-based Python type checker from Astral (the makers of `uv` and `ruff`) that's 10-100× faster than mypy and Pyright. It fits naturally with the rest of the Astral toolchain used here. ty is currently in beta — see the [version policy](https://github.com/astral-sh/ty#version-policy) for details.
 
 ## Support
 

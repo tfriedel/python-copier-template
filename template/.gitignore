@@ -290,3 +290,18 @@ tags
 
 # TDD-Guard
 .claude/tdd-guard/
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Node
+node_modules/
+
+# pytest-testmon
+.testmondata
+
+# complexipy
+.complexipy_cache/
+
+# WSL2 NTFS metadata
+*:Zone.Identifier

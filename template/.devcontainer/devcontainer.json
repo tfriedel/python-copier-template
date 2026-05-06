@@ -17,7 +17,7 @@
 			"configureZshAsDefaultShell": true
 		},
 		"ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
-			"packages": "curl,wget,git,jq,ca-certificates,build-essential,ripgrep,fd-find"
+			"packages": "curl,wget,git,jq,ca-certificates,build-essential,ripgrep,fd-find,just"
 		},
 		"ghcr.io/va-h/devcontainers-features/uv:1": {
 			"shellAutocompletion": true
@@ -58,5 +58,5 @@
 		"source=${localEnv:HOME}/.codex/config.toml,target=/home/vscode/.codex/config.toml,type=bind"
 	],
 	"postCreateCommand": "npm install -g @openai/codex@latest && uv sync",
-	"postStartCommand": "uv run prek install"
+	"postStartCommand": "just install-hooks"
 }

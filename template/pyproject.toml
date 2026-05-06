@@ -24,17 +24,22 @@ bump = true
 
 [dependency-groups]
 dev = [
-  "coverage[toml]>=7.6.0",
-  "deptry>=0.23.0",
-  "git-cliff>=2.8.0",
-  "prek>=0.2.14",
-  "pytest>=9.0.1",
-  "pytest-cov>=6.0.0",
-  "pytest-sugar>=1.0.0",
-  "ruff>=0.14.5",
-  "sync-with-uv>=0.4.0",
+  "complexipy>=5.4.1",
+  "coverage[toml]>=7.13.5",
+  "deptry>=0.25.1",
+  "git-cliff>=2.13.1",
+  "prek>=0.3.13",
+  "pytest>=9.0.3",
+  "pytest-cov>=7.1.0",
+  "pytest-mock>=3.15.1",
+  "pytest-socket>=0.7.0",
+  "pytest-sugar>=1.1.1",
+  "pytest-testmon>=2.2.0",
+  "pytest-xdist>=3.8.0",
+  "ruff>=0.15.12",
+  "sync-with-uv>=0.5.0",
   "tdd-guard-pytest>=0.1.2",
-  "zuban>=0.2.2",
+  "ty>=0.0.34",
 ]
 
 [tool.ruff]
@@ -45,17 +50,18 @@ exclude = [".git", ".ruff_cache", ".venv", ".vscode"]
 [tool.ruff.lint]
 preview = true
 select = [
-  "ANN", # type annotation
-  "B",   # flake8-bugbear
-  "D",   # pydocstyle
-  "E",   # pycodestyle errors
-  "F",   # pyflakes
-  "I",   # isort
-  "PTH", # use `pathlib.Path` instead of `os.path`
-  "RUF", # ruff specific rules
-  "SIM", # flake8-simplify
-  "UP",  # pyupgrade
-  "W",   # pycodestyle warnings
+  "ANN",     # type annotation
+  "B",       # flake8-bugbear
+  "D",       # pydocstyle
+  "E",       # pycodestyle errors
+  "F",       # pyflakes
+  "I",       # isort
+  "PLR0912", # too many branches
+  "PTH",     # use `pathlib.Path` instead of `os.path`
+  "RUF",     # ruff specific rules
+  "SIM",     # flake8-simplify
+  "UP",      # pyupgrade
+  "W",       # pycodestyle warnings
 ]
 ignore = [
   "ANN401", # Checks that function arguments are annotated with a more specific type than Any.
@@ -96,18 +102,18 @@ unfixable = [
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
-[tool.mypy]
-# Zuban mypy-compatible mode configuration
-python_version = "{{python_version}}"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-exclude = [".git", ".ruff_cache", ".venv", ".vscode"]
+[tool.ty.environment]
+python-version = "{{python_version}}"
+root = ["./src"]
 
-[[tool.mypy.overrides]]
-module = "tests.*"
-ignore_missing_imports = true
-check_untyped_defs = true
+[tool.ty.src]
+include = ["src", "tests"]
+
+[[tool.ty.overrides]]
+include = ["tests/**"]
+
+[tool.ty.overrides.rules]
+unresolved-import = "ignore"
 
 [tool.coverage.run]
 source = ["src"]
@@ -124,3 +130,19 @@ exclude_lines = [
 ]
 
 [tool.deptry]
+
+[tool.complexipy]
+paths = ["src"]
+max-complexity-allowed = 15
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --tb=short --strict-markers"
+# uv-dynamic-versioning derives the version from git, which changes every commit.
+# Tell testmon to ignore that so it doesn't invalidate its cache on every commit.
+testmon_ignore_dependencies = ["{{package_name}}"]
+markers = [
+  "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+  "integration: marks integration tests",
+  "unit: marks unit tests",
+]

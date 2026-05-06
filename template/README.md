@@ -10,7 +10,7 @@
 - 📦 **Devcontainer Support**: VS Code devcontainer for consistent development
 - ✨ **AI Editor Support**: [Cursor rules](https://docs.cursor.com/context/rules) and [CLAUDE.md](https://docs.anthropic.com/en/docs/claude-code/overview) included for AI-powered development
 - 🛡️ **TDD-Guard**: Automated TDD enforcement for Claude Code with real-time test-driven development validation
-- 📝 **Type Checking**: Zuban type checker with mypy-compatible mode
+- 📝 **Type Checking**: [ty](https://github.com/astral-sh/ty), Astral's fast Rust-based type checker
 - 🔍 **Code Quality**: Pre-configured Ruff for linting and formatting
 - 🧪 **Testing**: pytest setup with coverage reporting and enhanced output (pytest-cov, pytest-sugar)
 - 📊 **Modern Logging**: Loguru for intuitive, zero-config logging
@@ -133,7 +133,7 @@ uvx copier update -A
 
 ### What type checker does this use?
 
-This template includes [Zuban](https://github.com/lorencarvalho/zuban), a modern type checker with mypy-compatible mode. If you prefer a different type checker like mypy or pyright, you can easily swap it out.
+This template includes [ty](https://github.com/astral-sh/ty), Astral's Rust-based type checker (10-100× faster than mypy/Pyright). It's still in beta — if you prefer a different type checker like mypy or pyright, you can swap it out by editing `pyproject.toml`, `.pre-commit-config.yaml`, and the `typecheck` recipe in `justfile`.
 
 ### How does versioning work?
 

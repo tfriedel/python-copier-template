@@ -17,6 +17,8 @@ Common development commands:
 just --list      # Show all available commands
 just format      # Format code
 just lint        # Check code quality
+just typecheck   # Type check with ty
+just complexity  # Check cognitive complexity (≤ 15)
 just test        # Run tests
 just ci          # Run full CI pipeline
 ```
@@ -75,6 +77,9 @@ When you upgrade a tool with `uv add --dev tool --upgrade-package tool`, the nex
 - Follow existing patterns exactly
 - Use Google style for docstrings
 - Business-focused naming: Names should describe business value, not technical details
+- **Complexity enforcement**: Two tools work together:
+  - **Ruff PLR0912**: Catches functions with too many branches (>12)
+  - **complexipy**: Enforces cognitive complexity ≤ 15 for all functions. Run `just complexity` to check
 
 ## Test-Driven Development (TDD)
 
@@ -119,6 +124,16 @@ After each green test, look for:
 - New features require tests
 - Bug fixes require regression tests
 
+### Test Impact Analysis (testmon)
+
+`just test` (the default) uses pytest-testmon to run only tests affected by your changes:
+
+- First run builds the dependency database (slower)
+- Subsequent runs only execute affected tests
+- Database stored in `.testmondata` (gitignored, per-worktree)
+- Use `just test-full` to run all tests (used by `just check` and CI)
+- Run `just test-reset` if the database gets corrupted
+
 ### Common TDD Violations to Avoid
 
 - Adding 4+ tests at once (blocked by TDD Guard)
@@ -160,7 +175,7 @@ Manual commands (if needed):
    - Config: `.pre-commit-config.yaml`
    - Install: `just install-hooks` (or `uv run prek install`)
    - Runs: automatically on git commit
-   - Tools: sync-with-uv, uv-lock, Ruff, Zuban
+   - Tools: sync-with-uv, uv-lock, Ruff, ty
 
 ## Development Workflow Best Practices
 
@@ -186,3 +201,38 @@ Manual commands (if needed):
 - Use `code-reviewer` agent after completing features or before PRs
 - Use `debugger` agent when encountering unexpected test failures or errors
 - Use specialized agents early in development, not just for final review
+
+## Release Workflow
+
+```bash
+just release v0.5.0          # Specify version (interactive)
+just release v0.5.0 --yes    # Skip confirmation (for automation)
+just release-auto            # Auto-bump from conventional commits
+just release-auto --yes      # Auto-bump, skip confirmation
+```
+
+The `release` command will:
+
+1. Validate version format and check for uncommitted changes
+2. Generate CHANGELOG.md for the new version using git-cliff
+3. Show a preview of the changelog changes
+4. Ask for confirmation (unless `--yes` flag is used)
+5. Commit the changelog with message "docs: update changelog for vX.Y.Z"
+6. Create an annotated git tag on that commit
+7. Show instructions for pushing
+
+**Version numbering:**
+
+- Version is derived from git tags (via uv-dynamic-versioning)
+- Use semantic versioning: vMAJOR.MINOR.PATCH
+- `release-auto` determines the bump from conventional commits:
+  - `feat:` → **MINOR** bump
+  - `fix:` → **PATCH** bump
+  - `BREAKING CHANGE` or `feat!:`/`fix!:` → **MAJOR** bump
+
+**After releasing:**
+
+```bash
+git push origin <branch-name>  # Push commits
+git push origin <version-tag>  # Push tag
+```
