@@ -3,9 +3,9 @@
 [![Copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-black.json)](https://github.com/copier-org/copier)
 [![Test](https://github.com/tfriedel/python-copier-template/actions/workflows/test.yml/badge.svg)](https://github.com/tfriedel/python-copier-template/actions/workflows/test.yml)
 
-A modern Python project template powered by [Copier](https://copier.readthedocs.io/) with TDD-Guard integration.
+A modern Python project template powered by [Copier](https://copier.readthedocs.io/) with [Probity](https://github.com/nizos/probity) integration for AI coding agents.
 
-> **Note**: This is a fork of [mjun0812/python-copier-template](https://github.com/mjun0812/python-copier-template) with enhanced TDD workflow support and additional tooling.
+> **Note**: This is a fork of [mjun0812/python-copier-template](https://github.com/mjun0812/python-copier-template) with enhanced TDD workflow support (via Probity) and additional tooling.
 >
 > Original template by Junya Morioka - [Article](https://mjunya.com/en/posts/2025-06-15-python-template/) | [日本語記事](https://zenn.dev/mjun0812/articles/0ae2325d40ed20)
 
@@ -18,14 +18,18 @@ A modern Python project template powered by [Copier](https://copier.readthedocs.
 - 📦 **Devcontainer Support**: VS Code devcontainer for consistent development
 - ✨ **AI Editor Support**: [AGENTS.md](https://agents.md) and
   [CLAUDE.md](https://docs.anthropic.com/en/docs/claude-code/overview) included for AI-powered development
-- 📝 **Type Checking**: [ty](https://github.com/astral-sh/ty), Astral's fast Rust-based type checker
+- 📝 **Type Checking**: [ty](https://github.com/astral-sh/ty), Astral's fast Rust-based type checker (replaced an earlier Zuban integration)
 - 🔍 **Code Quality**: Pre-configured Ruff for linting and formatting
-- 🧪 **Testing**: pytest setup with coverage reporting and enhanced output (pytest-cov, pytest-sugar)
+- 🧠 **Complexity Limits**: [complexipy](https://github.com/rohaquinlop/complexipy) enforces cognitive complexity ≤ 15 per function
+- 📋 **Dependency Audit**: [deptry](https://github.com/fpgmaas/deptry) catches missing/unused/transitive deps
+- 🔒 **Secret Scanning**: [gitleaks](https://github.com/gitleaks/gitleaks) pre-commit hook blocks committed credentials
+- 🧪 **Testing**: pytest with coverage, parallelism (xdist), mocking, network isolation (pytest-socket), and test impact analysis (pytest-testmon — only re-runs affected tests)
+- 🛡️ **AI Agent Process Discipline**: [Probity](https://github.com/nizos/probity) enforces TDD and other rules across Claude Code, Codex, GitHub Copilot, and OpenCode
 - 📊 **Modern Logging**: Loguru for intuitive, zero-config logging
-- 🔧 **Pre-commit Hooks**: Automated code quality checks with prek (10x faster than traditional pre-commit)
+- 🔧 **Pre-commit Hooks**: Automated code quality checks with prek (10x faster than traditional pre-commit) and sync-with-uv to eliminate version drift
 - 🏷️ **Dynamic Versioning**: Automatic versioning from git tags (no manual version bumping!)
 - 📝 **Changelog Generation**: Automated CHANGELOG.md from conventional commits
-- 🏗️ **CI Ready**: GitHub Actions workflows included
+- 🏗️ **CI Ready**: GitHub Actions workflows with uv-cached installs for fast runs
 
 ## Quick Start
 
@@ -135,9 +139,9 @@ your-project/
 - Better cross-platform compatibility
 - Developer-friendly features like recipe parameters and clear command listing
 
-### Why ty instead of mypy or pyright?
+### Why ty instead of mypy, pyright, or zuban?
 
-[ty](https://github.com/astral-sh/ty) is a Rust-based Python type checker from Astral (the makers of `uv` and `ruff`) that's 10-100× faster than mypy and Pyright. It fits naturally with the rest of the Astral toolchain used here. ty is currently in beta — see the [version policy](https://github.com/astral-sh/ty#version-policy) for details.
+[ty](https://github.com/astral-sh/ty) is a Rust-based Python type checker from Astral (the makers of `uv` and `ruff`) that's 10-100× faster than mypy and Pyright. It fits naturally with the rest of the Astral toolchain used here. An earlier version of this template integrated [Zuban](https://zubanls.com/) (a mypy-compatible Rust checker) — ty won out because of the Astral integration. ty is currently in beta — see the [version policy](https://github.com/astral-sh/ty#version-policy) for details. If you prefer mypy, pyright, or zuban, swap it out by editing `pyproject.toml`, `.pre-commit-config.yaml`, and the `typecheck` recipe in the generated project's `justfile`.
 
 ## Support
 

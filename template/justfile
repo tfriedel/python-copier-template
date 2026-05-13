@@ -19,7 +19,7 @@ help:
 setup:
     @echo "🚀 Setting up development environment..."
     @just init-git
-    @just install-tdd-guard
+    @just install-probity
     @just install-dev
     @just install-hooks
     @echo "✅ Setup complete! You're ready to develop."
@@ -34,21 +34,46 @@ init-git:
         echo "✅ Git repository already initialized"; \
     fi
 
-# Install TDD-Guard for test-driven development enforcement
-install-tdd-guard:
-    @echo "🛡️ Installing/updating TDD-Guard..."
+# Install Probity (and Python ast-grep pack) for AI agent process discipline
+# Installs locally via package.json so the probity.config.mjs Haiku override
+# can resolve @anthropic-ai/claude-agent-sdk (a global install would not).
+install-probity:
+    @echo "🛡️ Installing/updating Probity..."
     @if command -v npm >/dev/null 2>&1; then \
-        npm install -g tdd-guard@latest; \
-        echo "✅ TDD-Guard installed/updated"; \
+        npm install --silent && \
+        echo "✅ Probity installed locally (node_modules/)"; \
     else \
-        echo "⚠️  npm not found - skipping TDD-Guard installation"; \
-        echo "   Install Node.js to enable TDD-Guard: https://nodejs.org/"; \
+        echo "⚠️  npm not found - skipping Probity installation"; \
+        echo "   Install Node.js to enable Probity: https://nodejs.org/"; \
     fi
 
 # Install development dependencies
 install-dev:
     @echo "📦 Installing development dependencies..."
     uv sync --dev
+
+# Enable GitHub secret-scanning push protection on the current repo's remote.
+# Push protection blocks pushes that contain detected secrets at GitHub's
+# transport layer — the only layer that actually prevents a leak once the
+# local hook is bypassed. Free for public repos and (since 2024) for private
+# repos via GitHub's free secret-scanning tier. Requires `gh` authenticated
+# with `admin:repo` scope and an `origin` remote pointing at GitHub.
+enable-push-protection:
+    @echo "🔒 Enabling GitHub secret-scanning push protection..."
+    @if ! command -v gh >/dev/null 2>&1; then \
+        echo "❌ gh CLI not found. Install: https://cli.github.com/"; exit 1; \
+    fi
+    @REMOTE=$(git remote get-url origin 2>/dev/null || true); \
+    if [ -z "$REMOTE" ]; then \
+        echo "❌ No 'origin' remote configured. Run 'gh repo create' first."; exit 1; \
+    fi; \
+    REPO=$(echo "$REMOTE" | sed -E 's#(git@github\.com:|https://github\.com/)([^/]+/[^/.]+)(\.git)?#\2#'); \
+    echo "  → Target: $REPO"; \
+    gh api -X PATCH "/repos/$REPO" \
+        -F security_and_analysis[secret_scanning][status]=enabled \
+        -F security_and_analysis[secret_scanning_push_protection][status]=enabled \
+        --silent && \
+    echo "✅ Push protection enabled for $REPO"
 
 # Install pre-commit hooks
 install-hooks:

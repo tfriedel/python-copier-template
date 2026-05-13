@@ -94,7 +94,7 @@ When you upgrade a tool with `uv add --dev tool --upgrade-package tool`, the nex
 
 - **ONE TEST AT A TIME**: Add only a single test, see it fail (RED), implement minimal code to pass (GREEN), refactor (REFACTOR), repeat
 - **MINIMAL IMPLEMENTATION**: Fix only the immediate test failure - do not implement complete functionality until tests demand it
-- **NO BULK TEST ADDITION**: Never add multiple tests simultaneously - TDD Guard will block this
+- **NO BULK TEST ADDITION**: Never add multiple tests simultaneously - Probity will block this
 - **FAIL FIRST**: Always run the new test to confirm it fails before writing implementation code
 - **INCREMENTAL PROGRESS**: Each test should drive one small increment of functionality
 
@@ -136,7 +136,7 @@ After each green test, look for:
 
 ### Common TDD Violations to Avoid
 
-- Adding 4+ tests at once (blocked by TDD Guard)
+- Adding 4+ tests at once (blocked by Probity)
 - Over-implementing when test only needs imports or basic structure
 - Writing implementation code before seeing test fail
 - Implementing features not yet demanded by tests
@@ -153,6 +153,8 @@ After each green test, look for:
 - API keys MUST be in .env files
 - .env files MUST be in .gitignore
 - Never commit secrets to version control
+- The repo's pre-commit hooks include gitleaks; do NOT use `git commit --no-verify` to bypass it
+- After first push to GitHub, run `just enable-push-protection` to enable server-side push protection (the only layer that prevents secrets from reaching the remote once the local hook is bypassed)
 
 ## Code Formatting and Linting
 

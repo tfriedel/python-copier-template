@@ -38,7 +38,6 @@ dev = [
   "pytest-xdist>=3.8.0",
   "ruff>=0.15.12",
   "sync-with-uv>=0.5.0",
-  "tdd-guard-pytest>=0.1.2",
   "ty>=0.0.34",
 ]
 
