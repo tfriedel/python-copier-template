@@ -29,7 +29,7 @@ jobs:
         run: uvx ruff check --output-format=github .
 
       - name: Typecheck
-        run: uv run --frozen ty check
+        run: uv run --frozen pyrefly check
 
       - name: Deptry
         run: uv run --frozen deptry src

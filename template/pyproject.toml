@@ -29,6 +29,7 @@ dev = [
   "deptry>=0.25.1",
   "git-cliff>=2.13.1",
   "prek>=0.3.13",
+  "pyrefly>=1.0.0",
   "pytest>=9.0.3",
   "pytest-cov>=7.1.0",
   "pytest-mock>=3.15.1",
@@ -38,7 +39,6 @@ dev = [
   "pytest-xdist>=3.8.0",
   "ruff>=0.15.12",
   "sync-with-uv>=0.5.0",
-  "ty>=0.0.34",
 ]
 
 [tool.ruff]
@@ -101,18 +101,16 @@ unfixable = [
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
-[tool.ty.environment]
+[tool.pyrefly]
 python-version = "{{python_version}}"
-root = ["./src"]
+project-includes = ["src", "tests"]
+search-path = ["src"]
 
-[tool.ty.src]
-include = ["src", "tests"]
+[[tool.pyrefly.sub-config]]
+matches = "tests/**"
 
-[[tool.ty.overrides]]
-include = ["tests/**"]
-
-[tool.ty.overrides.rules]
-unresolved-import = "ignore"
+[tool.pyrefly.sub-config.errors]
+missing-import = false
 
 [tool.coverage.run]
 source = ["src"]

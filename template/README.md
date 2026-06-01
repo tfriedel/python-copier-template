@@ -10,7 +10,7 @@
 - 📦 **Devcontainer Support**: VS Code devcontainer for consistent development
 - ✨ **AI Editor Support**: [Cursor rules](https://docs.cursor.com/context/rules) and [CLAUDE.md](https://docs.anthropic.com/en/docs/claude-code/overview) included for AI-powered development
 - 🛡️ **Probity**: Process discipline for AI coding agents (TDD enforcement and more) — works with Claude Code, Codex, GitHub Copilot, and any agent that reads Claude Code-compatible hooks (e.g. OpenCode)
-- 📝 **Type Checking**: [ty](https://github.com/astral-sh/ty), Astral's fast Rust-based type checker (replaced an earlier Zuban integration)
+- 📝 **Type Checking**: [pyrefly](https://pyrefly.org/), Meta's fast Rust-based type checker
 - 🔍 **Code Quality**: Pre-configured Ruff for linting and formatting
 - 🧠 **Complexity Limits**: [complexipy](https://github.com/rohaquinlop/complexipy) enforces cognitive complexity ≤ 15 per function
 - 📋 **Dependency Audit**: [deptry](https://github.com/fpgmaas/deptry) catches missing/unused/transitive deps
@@ -153,7 +153,7 @@ uvx copier update -A
 
 ### What type checker does this use?
 
-This template includes [ty](https://github.com/astral-sh/ty), Astral's Rust-based type checker (10-100× faster than mypy/Pyright). An earlier version of this template integrated [Zuban](https://zubanls.com/) as a mypy-compatible alternative; ty was chosen instead because it fits the rest of the Astral toolchain (uv, ruff). ty is still in beta — if you prefer mypy, pyright, or zuban, you can swap it out by editing `pyproject.toml`, `.pre-commit-config.yaml`, and the `typecheck` recipe in `justfile`.
+This template includes [pyrefly](https://pyrefly.org/), Meta's Rust-based type checker (10-100× faster than mypy/Pyright). If you prefer mypy, pyright, ty, or zuban, you can swap it out by editing `pyproject.toml`, `.pre-commit-config.yaml`, and the `typecheck` recipe in `justfile`.
 
 ### How are tests sped up between runs?
 

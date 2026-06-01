@@ -23,9 +23,9 @@ repos:
       - id: gitleaks
   - repo: local
     hooks:
-      - id: ty
-        name: ty type checker
-        entry: uv run --frozen ty check
+      - id: pyrefly
+        name: pyrefly type checker
+        entry: uv run --frozen pyrefly check
         language: system
         types: [python]
         pass_filenames: false

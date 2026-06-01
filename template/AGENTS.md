@@ -17,7 +17,7 @@ Common development commands:
 just --list      # Show all available commands
 just format      # Format code
 just lint        # Check code quality
-just typecheck   # Type check with ty
+just typecheck   # Type check with pyrefly
 just complexity  # Check cognitive complexity (≤ 15)
 just test        # Run tests
 just ci          # Run full CI pipeline
@@ -177,7 +177,7 @@ Manual commands (if needed):
    - Config: `.pre-commit-config.yaml`
    - Install: `just install-hooks` (or `uv run prek install`)
    - Runs: automatically on git commit
-   - Tools: sync-with-uv, uv-lock, Ruff, ty
+   - Tools: sync-with-uv, uv-lock, Ruff, pyrefly
 
 ## Development Workflow Best Practices
 

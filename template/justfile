@@ -107,10 +107,10 @@ lint-fix:
     @echo "🔧 Linting code with auto-fix..."
     uv run --frozen ruff check . --fix
 
-# Run type checking with ty
+# Run type checking with pyrefly
 typecheck:
     @echo "🔍 Running type checker..."
-    uv run --frozen ty check
+    uv run --frozen pyrefly check
 
 # Check for dependency issues with deptry
 deptry:

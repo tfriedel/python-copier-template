@@ -18,7 +18,7 @@ A modern Python project template powered by [Copier](https://copier.readthedocs.
 - 📦 **Devcontainer Support**: VS Code devcontainer for consistent development
 - ✨ **AI Editor Support**: [AGENTS.md](https://agents.md) and
   [CLAUDE.md](https://docs.anthropic.com/en/docs/claude-code/overview) included for AI-powered development
-- 📝 **Type Checking**: [ty](https://github.com/astral-sh/ty), Astral's fast Rust-based type checker (replaced an earlier Zuban integration)
+- 📝 **Type Checking**: [pyrefly](https://pyrefly.org/), Meta's fast Rust-based type checker
 - 🔍 **Code Quality**: Pre-configured Ruff for linting and formatting
 - 🧠 **Complexity Limits**: [complexipy](https://github.com/rohaquinlop/complexipy) enforces cognitive complexity ≤ 15 per function
 - 📋 **Dependency Audit**: [deptry](https://github.com/fpgmaas/deptry) catches missing/unused/transitive deps
@@ -73,7 +73,7 @@ just test                  # or: uv run pytest
 # Run formatting, linting, and type checking
 just format                # or: uv run ruff format .
 just lint                  # or: uv run ruff check .
-just typecheck             # or: uv run ty check
+just typecheck             # or: uv run pyrefly check
 
 # Auto-fix linting issues
 just lint-fix              # or: uv run ruff check . --fix
@@ -135,13 +135,13 @@ your-project/
 
 [just](https://just.systems/) is a modern command runner designed specifically for developer tasks, not build systems. It offers:
 - Cleaner, more intuitive syntax without Make's quirks (no tab sensitivity, better error messages)
-- Written in Rust, aligning with the modern toolchain (prek, ruff, ty, uv)
+- Written in Rust, aligning with the modern toolchain (prek, ruff, pyrefly, uv)
 - Better cross-platform compatibility
 - Developer-friendly features like recipe parameters and clear command listing
 
-### Why ty instead of mypy, pyright, or zuban?
+### Why pyrefly instead of mypy, pyright, ty, or zuban?
 
-[ty](https://github.com/astral-sh/ty) is a Rust-based Python type checker from Astral (the makers of `uv` and `ruff`) that's 10-100× faster than mypy and Pyright. It fits naturally with the rest of the Astral toolchain used here. An earlier version of this template integrated [Zuban](https://zubanls.com/) (a mypy-compatible Rust checker) — ty won out because of the Astral integration. ty is currently in beta — see the [version policy](https://github.com/astral-sh/ty#version-policy) for details. If you prefer mypy, pyright, or zuban, swap it out by editing `pyproject.toml`, `.pre-commit-config.yaml`, and the `typecheck` recipe in the generated project's `justfile`.
+[pyrefly](https://pyrefly.org/) is a Rust-based Python type checker from Meta that's 10-100× faster than mypy and Pyright. It pairs well with the rest of the Rust-based toolchain used here (`uv`, `ruff`, `prek`). If you prefer mypy, pyright, [ty](https://github.com/astral-sh/ty), or [zuban](https://zubanls.com/), swap it out by editing `pyproject.toml`, `.pre-commit-config.yaml`, and the `typecheck` recipe in the generated project's `justfile`.
 
 ## Support
 
